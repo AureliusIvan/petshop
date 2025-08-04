@@ -39,13 +39,13 @@ const DogCard = ({ dog }: { dog: Dog }) => {
 };
 
 const FeaturedDogs = () => {
-  const { data: dogImages, loading } = useDogAPI({ type: 'random', count: 6 }) as { data: string[] | null, loading: boolean };
+  const endpoint = React.useMemo(() => ({ type: 'random', count: 6 }), []);
+  const { data: dogImages, loading } = useDogAPI(endpoint) as { data: string[] | null, loading: boolean };
 
-  const featuredDogs = React.useMemo(() => {
+  const featuredDogs: Dog[] = React.useMemo(() => {
     if (!dogImages?.length) return [];
     
-    return dogImages.slice(0, 6).map((imageUrl: string) => {
-      // Extract breed from URL
+    return dogImages.map((imageUrl: string) => {
       const urlParts = imageUrl.split('/');
       const breedPart = urlParts[4] || 'mixed';
       const breed = breedPart.split('-')[0];
@@ -53,36 +53,6 @@ const FeaturedDogs = () => {
       return mockData.generateDogInfo(breed, imageUrl);
     });
   }, [dogImages]);
-
-  if (loading) {
-    return (
-      <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="section-heading text-text-primary mb-4">
-              Meet Our Featured Dogs
-            </h2>
-            <p className="body-text text-text-secondary max-w-2xl mx-auto">
-              These amazing dogs are looking for their forever homes. Each one has been health-checked and is ready for adoption.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[...Array(6)].map((_, index) => (
-              <div key={index} className="card animate-pulse">
-                <div className="bg-gray-300 h-64 rounded-lg mb-4"></div>
-                <div className="h-4 bg-gray-300 rounded mb-2"></div>
-                <div className="h-3 bg-gray-300 rounded mb-4 w-3/4"></div>
-                <div className="flex justify-between items-center">
-                  <div className="h-4 bg-gray-300 rounded w-16"></div>
-                  <div className="h-8 bg-gray-300 rounded w-24"></div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-    );
-  }
 
   return (
     <section className="py-16 bg-white">
@@ -96,14 +66,34 @@ const FeaturedDogs = () => {
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-          {featuredDogs.map((dog: Dog) => (
-            <DogCard 
-              key={dog.id} 
-              dog={dog}
-            />
-          ))}
-        </div>
+        {loading ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+            {[...Array(6)].map((_, index) => (
+              <div key={index} className="card animate-pulse">
+                <div className="bg-gray-300 h-64 rounded-lg mb-4"></div>
+                <div className="h-4 bg-gray-300 rounded mb-2"></div>
+                <div className="h-3 bg-gray-300 rounded mb-4 w-3/4"></div>
+                <div className="flex justify-between items-center">
+                  <div className="h-4 bg-gray-300 rounded w-16"></div>
+                  <div className="h-8 bg-gray-300 rounded w-24"></div>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : featuredDogs.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+            {featuredDogs.map((dog: Dog) => (
+              <DogCard 
+                key={dog.id} 
+                dog={dog}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-12">
+            <p className="body-text text-text-secondary">No featured dogs available at the moment.</p>
+          </div>
+        )}
 
         <div className="text-center">
           <Link to="/catalog" className="btn-primary body-text px-8 py-3">
