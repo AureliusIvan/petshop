@@ -1,0 +1,82 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #FDFEFE;
+  --color-primary: #A8E6CF;
+  --color-secondary: #87CEEB;
+  --color-accent: #B8E3F5;
+  --color-text-primary: #2C3E50;
+  --color-text-secondary: #7F8C8D;
+  
+  --font-sans: "Quicksand", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+  --font-heading: "Quicksand", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Quicksand", ui-sans-serif, system-ui, sans-serif;
+  
+  --spacing: 0.25rem;
+}
+
+/* Custom global styles */
+@layer base {
+  body {
+    @apply bg-background text-text-primary font-sans antialiased;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-primary text-text-primary px-6 py-3 rounded-lg font-medium hover:bg-primary/90 transition-all duration-300;
+  }
+  
+  .btn-secondary {
+    @apply bg-secondary text-white px-6 py-3 rounded-lg font-medium hover:bg-secondary/90 transition-all duration-300;
+  }
+  
+  .card {
+    @apply bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-all duration-300;
+  }
+
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Typography Utility Classes */
+  .hero-title {
+    @apply font-heading font-bold text-4xl md:text-5xl lg:text-6xl leading-tight;
+  }
+
+  .section-heading {
+    @apply font-heading font-semibold text-2xl md:text-3xl lg:text-4xl leading-tight;
+  }
+
+  .card-title {
+    @apply font-heading font-medium text-lg md:text-xl leading-tight;
+  }
+
+  .body-text {
+    @apply font-body font-normal text-base md:text-lg leading-relaxed;
+  }
+
+  .small-text {
+    @apply font-body font-normal text-sm leading-normal;
+  }
+
+  .display-title {
+    @apply font-heading font-bold text-5xl md:text-6xl lg:text-7xl leading-tight;
+  }
+
+  .subtitle {
+    @apply font-body font-medium text-lg md:text-xl leading-relaxed;
+  }
+}
