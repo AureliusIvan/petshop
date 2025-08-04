@@ -1,4 +1,3 @@
-import React from 'react';
 import Hero from '../components/home/Hero';
 import FeaturedDogs from '../components/home/FeaturedDogs';
 import Services from '../components/home/Services';

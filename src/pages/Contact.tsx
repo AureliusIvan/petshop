@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useAnimation } from '../hooks/useAnimation';
 
 const Contact = () => {
-  const { elementRef } = useAnimation('pageEnter');
+  const { elementRef } = useAnimation('pageEnter') as { elementRef: React.RefObject<HTMLDivElement> };
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -11,7 +11,7 @@ const Contact = () => {
     message: ''
   });
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
@@ -19,7 +19,7 @@ const Contact = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // Handle form submission
     console.log('Form submitted:', formData);
@@ -32,6 +32,7 @@ const Contact = () => {
       message: ''
     });
   };
+
 
   return (
     <div ref={elementRef} className="min-h-screen bg-gray-50">

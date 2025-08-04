@@ -1,4 +1,3 @@
-import React from 'react';
 import { mockData } from '../../data/mockData';
 
 const Services = () => {

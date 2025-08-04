@@ -28,7 +28,7 @@ export const animations = {
   },
   
   // Scroll reveal animations
-  scrollReveal: (element, options = {}) => {
+  scrollReveal: (element: HTMLElement, options = {}) => {
     const defaults = {
       y: 60,
       opacity: 0,
@@ -50,7 +50,7 @@ export const animations = {
   },
 
   // Stagger animation for grid items
-  staggerReveal: (elements, options = {}) => {
+  staggerReveal: (elements: HTMLElement[], options = {}) => {
     const defaults = {
       y: 50,
       opacity: 0,
@@ -73,7 +73,7 @@ export const animations = {
   
   // Hover animations
   cardHover: {
-    enter: (element) => {
+    enter: (element: HTMLElement) => {
       gsap.to(element, {
         scale: 1.05,
         y: -5,
@@ -82,7 +82,7 @@ export const animations = {
         ease: "power2.out"
       });
     },
-    leave: (element) => {
+    leave: (element: HTMLElement) => {
       gsap.to(element, {
         scale: 1,
         y: 0,
@@ -94,7 +94,7 @@ export const animations = {
   },
 
   // Loading spinner
-  loadingSpinner: (element) => {
+  loadingSpinner: (element: HTMLElement) => {
     gsap.to(element, {
       rotation: 360,
       duration: 1,
@@ -104,7 +104,7 @@ export const animations = {
   },
 
   // Modal animations
-  modalShow: (element) => {
+  modalShow: (element: HTMLElement) => {
     gsap.fromTo(element, 
       { 
         opacity: 0, 
@@ -121,7 +121,7 @@ export const animations = {
     );
   },
 
-  modalHide: (element) => {
+  modalHide: (element: HTMLElement) => {
     gsap.to(element, {
       opacity: 0,
       scale: 0.8,
@@ -133,13 +133,13 @@ export const animations = {
 
   // Page transitions
   pageTransition: {
-    enter: (element) => {
+    enter: (element: HTMLElement) => {
       gsap.fromTo(element,
         { opacity: 0, y: 30 },
         { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }
       );
     },
-    exit: (element) => {
+    exit: (element: HTMLElement) => {
       gsap.to(element, {
         opacity: 0,
         y: -30,
@@ -150,14 +150,14 @@ export const animations = {
   },
 
   // Counter animation
-  countUp: (element, endValue, duration = 2) => {
+  countUp: (element: HTMLElement, endValue: number, duration = 2) => {
     const obj = { value: 0 };
     gsap.to(obj, {
       value: endValue,
       duration: duration,
       ease: "power2.out",
       onUpdate: () => {
-        element.textContent = Math.round(obj.value);
+        element.textContent = Math.round(obj.value).toString();
       }
     });
   }

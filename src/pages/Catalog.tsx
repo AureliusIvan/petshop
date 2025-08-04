@@ -1,8 +1,16 @@
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { useDogAPI } from '../hooks/useDogAPI';
 import { mockData } from '../data/mockData';
+import type { Dog } from '../data/mockData';
 
-const FilterBar = ({ onFilterChange, loading }) => {
+interface Filters {
+  breed: string;
+  size: string;
+  age: string;
+  gender: string;
+}
+
+const FilterBar = ({ onFilterChange, loading }: { onFilterChange: (filters: Filters) => void, loading: boolean }) => {
   const [filters, setFilters] = useState({
     breed: '',
     size: '',
@@ -10,7 +18,7 @@ const FilterBar = ({ onFilterChange, loading }) => {
     gender: ''
   });
 
-  const handleFilterChange = (key, value) => {
+  const handleFilterChange = (key: keyof Filters, value: string) => {
     const newFilters = { ...filters, [key]: value };
     setFilters(newFilters);
     onFilterChange(newFilters);
@@ -85,7 +93,7 @@ const FilterBar = ({ onFilterChange, loading }) => {
   );
 };
 
-const DogCard = ({ dog }) => {
+const DogCard = ({ dog }: { dog: Dog }) => {
   return (
     <div className="card group cursor-pointer">
       <div className="relative overflow-hidden rounded-lg mb-4">
@@ -132,15 +140,15 @@ const DogCard = ({ dog }) => {
 };
 
 const Catalog = () => {
-  const [filters, setFilters] = useState({});
+  const [filters, setFilters] = useState<Filters>({ breed: '', size: '', age: '', gender: '' });
   
   const endpoint = useMemo(() => ({ type: 'random', count: 12 }), []);
-  const { data: dogImages, loading, refetch } = useDogAPI(endpoint);
+  const { data: dogImages, loading, refetch } = useDogAPI(endpoint) as { data: string[] | null, loading: boolean, refetch: () => void };
 
-  const dogs = useMemo(() => {
+  const dogs: Dog[] = useMemo(() => {
     if (!dogImages?.length) return [];
     
-    return dogImages.map((imageUrl) => {
+    return dogImages.map((imageUrl: string) => {
       const urlParts = imageUrl.split('/');
       const breedPart = urlParts[4] || 'mixed';
       const breed = breedPart.split('-')[0];
@@ -150,7 +158,7 @@ const Catalog = () => {
   }, [dogImages]);
 
   const filteredDogs = useMemo(() => {
-    return dogs.filter(dog => {
+    return dogs.filter((dog: Dog) => {
       if (filters.breed && !dog.breed.toLowerCase().includes(filters.breed.toLowerCase())) {
         return false;
       }
@@ -219,7 +227,7 @@ const Catalog = () => {
           </div>
         ) : filteredDogs.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {filteredDogs.map((dog) => (
+            {filteredDogs.map((dog: Dog) => (
               <DogCard key={dog.id} dog={dog} />
             ))}
           </div>
@@ -227,7 +235,7 @@ const Catalog = () => {
           <div className="text-center py-12">
             <p className="subtitle text-text-secondary">No dogs found matching your criteria.</p>
             <button 
-              onClick={() => setFilters({})}
+              onClick={() => setFilters({ breed: '', size: '', age: '', gender: '' })}
               className="btn-primary mt-4"
             >
               Clear Filters

@@ -1,42 +1,35 @@
 import { useEffect, useRef } from 'react';
 import { animations } from '../utils/animations';
+import type { AnimationType, TriggerAnimationType } from '../types';
 
-export const useAnimation = (animationType, options = {}) => {
-  const elementRef = useRef(null);
+export const useAnimation = (animationType: AnimationType, options = {}) => {
+  const elementRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!elementRef.current) return;
 
-    let animation;
-    
     switch (animationType) {
       case 'scrollReveal':
-        animation = animations.scrollReveal(elementRef.current, options);
+        animations.scrollReveal(elementRef.current, options);
         break;
       case 'staggerReveal':
-        animation = animations.staggerReveal(elementRef.current.children, options);
+        animations.staggerReveal(Array.from(elementRef.current.children) as HTMLElement[], options);
         break;
       case 'hero':
-        animation = animations.heroTimeline();
+        animations.heroTimeline();
         break;
       case 'modal':
-        animation = animations.modalShow(elementRef.current);
+        animations.modalShow(elementRef.current);
         break;
       case 'pageEnter':
-        animation = animations.pageTransition.enter(elementRef.current);
+        animations.pageTransition.enter(elementRef.current);
         break;
       default:
         break;
     }
+  }, [animationType, options]);
 
-    return () => {
-      if (animation && animation.kill) {
-        animation.kill();
-      }
-    };
-  }, [animationType, JSON.stringify(options)]);
-
-  const triggerAnimation = (type, customOptions = {}) => {
+  const triggerAnimation = (type: TriggerAnimationType) => {
     if (!elementRef.current) return;
 
     switch (type) {

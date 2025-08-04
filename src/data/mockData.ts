@@ -1,3 +1,19 @@
+export interface Dog {
+  id: string;
+  name: string;
+  breed: string;
+  age: number;
+  gender: string;
+  size: string;
+  temperament: string;
+  adoptionFee: number;
+  vaccinated: boolean;
+  neutered: boolean;
+  description: string;
+  imageUrl: string;
+  available: boolean;
+}
+
 // Mock data for the Agnes Pet Shop application
 
 // Dog names for random generation
@@ -32,7 +48,7 @@ export const mockData = {
   },
 
   // Get size by breed (simplified categorization)
-  getSizeByBreed: (breed) => {
+  getSizeByBreed: (breed: string): string => {
     const smallBreeds = ['chihuahua', 'pug', 'terrier', 'spaniel', 'poodle'];
     const largeBreeds = ['mastiff', 'dane', 'bernard', 'shepherd', 'retriever', 'husky'];
     
@@ -45,7 +61,7 @@ export const mockData = {
   },
 
   // Get temperament by breed
-  getTemperamentByBreed: (breed) => {
+  getTemperamentByBreed: (breed: string): string => {
     const breedLower = breed.toLowerCase();
     let category = 'default';
     
@@ -55,12 +71,12 @@ export const mockData = {
     else if (breedLower.includes('terrier')) category = 'terrier';
     else if (breedLower.includes('chihuahua') || breedLower.includes('pug')) category = 'toy';
     
-    const traits = temperaments[category];
+    const traits = temperaments[category as keyof typeof temperaments];
     return traits[Math.floor(Math.random() * traits.length)];
   },
 
   // Generate description
-  generateDescription: (breed) => {
+  generateDescription: (breed: string): string => {
     const descriptions = [
       `This adorable ${breed} is looking for a loving forever home. They are well-socialized and great with children.`,
       `Meet this beautiful ${breed}! They love playing fetch and going on long walks. Perfect companion for an active family.`,
@@ -72,7 +88,7 @@ export const mockData = {
   },
 
   // Generate complete dog info
-  generateDogInfo: (breed, imageUrl) => ({
+  generateDogInfo: (breed: string, imageUrl: string): Dog => ({
     id: Math.random().toString(36).substr(2, 9),
     name: mockData.generateRandomName(),
     breed: breed.charAt(0).toUpperCase() + breed.slice(1),

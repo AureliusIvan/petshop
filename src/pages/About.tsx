@@ -1,9 +1,8 @@
-import React from 'react';
 import { useAnimation } from '../hooks/useAnimation';
 import { mockData } from '../data/mockData';
 
 const About = () => {
-  const { elementRef } = useAnimation('pageEnter');
+  const { elementRef } = useAnimation('pageEnter') as { elementRef: React.RefObject<HTMLDivElement> };
 
   return (
     <div ref={elementRef} className="min-h-screen bg-white">

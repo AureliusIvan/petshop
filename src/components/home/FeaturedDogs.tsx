@@ -1,9 +1,10 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { useDogAPI } from '../../hooks/useDogAPI';
 import { mockData } from '../../data/mockData';
+import type { Dog } from '../../data/mockData';
+import React from 'react';
 
-const DogCard = ({ dog }) => {
+const DogCard = ({ dog }: { dog: Dog }) => {
   return (
     <div className="card group cursor-pointer">
       <div className="relative overflow-hidden rounded-lg mb-4">
@@ -38,12 +39,12 @@ const DogCard = ({ dog }) => {
 };
 
 const FeaturedDogs = () => {
-  const { data: dogImages, loading } = useDogAPI({ type: 'random', count: 6 });
+  const { data: dogImages, loading } = useDogAPI({ type: 'random', count: 6 }) as { data: string[] | null, loading: boolean };
 
   const featuredDogs = React.useMemo(() => {
     if (!dogImages?.length) return [];
     
-    return dogImages.slice(0, 6).map((imageUrl, index) => {
+    return dogImages.slice(0, 6).map((imageUrl: string) => {
       // Extract breed from URL
       const urlParts = imageUrl.split('/');
       const breedPart = urlParts[4] || 'mixed';
@@ -96,7 +97,7 @@ const FeaturedDogs = () => {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-          {featuredDogs.map((dog) => (
+          {featuredDogs.map((dog: Dog) => (
             <DogCard 
               key={dog.id} 
               dog={dog}

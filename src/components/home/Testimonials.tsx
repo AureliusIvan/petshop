@@ -1,9 +1,8 @@
-import React from 'react';
 import { mockData } from '../../data/mockData';
 
 const Testimonials = () => {
 
-  const renderStars = (rating) => {
+  const renderStars = (rating: number) => {
     return [...Array(5)].map((_, index) => (
       <svg
         key={index}

@@ -39,7 +39,7 @@ export const dogAPI = {
   },
 
   // Get images by breed
-  getBreedImages: async (breed) => {
+  getBreedImages: async (breed: string) => {
     try {
       const response = await fetch(`${BASE_URL}/breed/${breed}/images`);
       const data = await response.json();
@@ -51,7 +51,7 @@ export const dogAPI = {
   },
 
   // Get random image by breed
-  getRandomBreedImage: async (breed) => {
+  getRandomBreedImage: async (breed: string) => {
     try {
       const response = await fetch(`${BASE_URL}/breed/${breed}/images/random`);
       const data = await response.json();

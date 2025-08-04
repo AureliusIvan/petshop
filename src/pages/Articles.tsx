@@ -1,7 +1,18 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { mockData } from '../data/mockData';
 
-const ArticleCard = ({ article, featured = false }) => {
+interface Article {
+  id: number;
+  title: string;
+  excerpt: string;
+  category: string;
+  readTime: string;
+  date: string;
+  author: string;
+  featured: boolean;
+}
+
+const ArticleCard = ({ article, featured = false }: { article: Article, featured?: boolean }) => {
   return (
     <article 
       className={`card group cursor-pointer ${featured ? 'md:col-span-2 lg:col-span-3' : ''}`}
@@ -55,10 +66,10 @@ const ArticleCard = ({ article, featured = false }) => {
   );
 };
 
-const CategoryFilter = ({ categories, activeCategory, onCategoryChange }) => {
+const CategoryFilter = ({ categories, activeCategory, onCategoryChange }: { categories: string[], activeCategory: string, onCategoryChange: (category: string) => void }) => {
   return (
     <div className="flex flex-wrap gap-2 justify-center mb-8">
-      {categories.map((category) => (
+      {categories.map((category: string) => (
         <button
           key={category}
           onClick={() => onCategoryChange(category)}
